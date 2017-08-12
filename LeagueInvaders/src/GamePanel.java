@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +10,15 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
+	Font start;
+	Font titlefont;
+	Font instructions;
+	Font gameover;
+	Font backspace;
+	Rocketship ship;
+	ObjectManager om;
 	Timer timer;
+	GameObject go;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
@@ -17,12 +26,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	GamePanel() {
 		timer = new Timer(1000 / 60, this);
-
+		titlefont = new Font("Arial", Font.PLAIN, 48);
+		instructions = new Font("Arial", Font.PLAIN, 28);
+        start = new Font("Arial", Font.PLAIN, 28);
+        gameover = new Font("Arial", Font.PLAIN, 48);
+        backspace = new Font("Arial", Font.PLAIN, 28);
+        ship = new Rocketship(250, 700, 50, 50);
+        go = new GameObject();
+        om = new ObjectManager();
+        om.addObject(ship);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		go.update();
 		repaint();
 		if (currentState == MENU_STATE) {
 			updateMenuState();
@@ -64,6 +82,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				currentState = MENU_STATE;
 			}
 		}
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			om.addObject(new Projectiles(ship.x, ship.y, 10, 10));
+		}
 
 	}
 
@@ -78,7 +99,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void updateGameState() {
-
+om.update();
 	}
 
 	public void updateEndState() {
@@ -86,17 +107,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawMenuState(Graphics g) {
-		g.setColor(Color.blue);
-		g.fillRect(0, 0, 500, 800);
+		g.setColor(Color.ORANGE);
+		g.setFont(titlefont);
+		g.drawString("LeagueInvaders" , 80, 125);
+		g.setFont(start);
+		g.drawString("Press Enter to Start", 125, 200);
+		g.setFont(start);
+		g.drawString("Press Space for Instructions", 85, 275);
+		
+				
 	}
 
 	void drawGameState(Graphics g) {
-		g.setColor(Color.black);
-		g.fillRect(0, 0, 500, 800);
+		om.draw(g);
 	}
 
 	void drawEndState(Graphics g) {
-		g.setColor(Color.red);
-		g.fillRect(0, 0, 500, 800);
+		g.setColor(Color.orange);
+		g.setFont(gameover);
+		g.drawString("Game Over", 115, 150);
+		g.setFont(backspace);
+		g.drawString("Press BACKSPACE to Restart", 75, 600);
 	}
 }

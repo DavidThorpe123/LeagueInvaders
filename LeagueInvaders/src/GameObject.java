@@ -5,13 +5,14 @@ public class GameObject {
 	int y;
 	int width;
 	int height;
+	Boolean isAlive = true;
 
 	public void update() {
 
-		x++;
+		
 	}
 
 	public void draw(Graphics g) {
-		g.fillRect(x, y, 100, 100);
+		g.drawRect(x, y, width, height);
 	}
 }
