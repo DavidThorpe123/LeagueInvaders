@@ -28,13 +28,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		timer = new Timer(1000 / 60, this);
 		titlefont = new Font("Arial", Font.PLAIN, 48);
 		instructions = new Font("Arial", Font.PLAIN, 28);
-        start = new Font("Arial", Font.PLAIN, 28);
-        gameover = new Font("Arial", Font.PLAIN, 48);
-        backspace = new Font("Arial", Font.PLAIN, 28);
-        ship = new Rocketship(250, 700, 50, 50);
-        go = new GameObject();
-        om = new ObjectManager();
-        om.addObject(ship);
+		start = new Font("Arial", Font.PLAIN, 28);
+		gameover = new Font("Arial", Font.PLAIN, 48);
+		backspace = new Font("Arial", Font.PLAIN, 28);
+		ship = new Rocketship(250, 700, 50, 50);
+		go = new GameObject();
+		om = new ObjectManager();
+		om.addObject(ship);
 	}
 
 	@Override
@@ -49,7 +49,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} else if (currentState == END_STATE) {
 			updateEndState();
 		}
-
 	}
 
 	public void startGame() {
@@ -99,7 +98,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void updateGameState() {
-om.update();
+		om.update();
+		om.manageEnemies();
 	}
 
 	public void updateEndState() {
@@ -109,13 +109,12 @@ om.update();
 	void drawMenuState(Graphics g) {
 		g.setColor(Color.ORANGE);
 		g.setFont(titlefont);
-		g.drawString("LeagueInvaders" , 80, 125);
+		g.drawString("LeagueInvaders", 80, 125);
 		g.setFont(start);
 		g.drawString("Press Enter to Start", 125, 200);
 		g.setFont(start);
 		g.drawString("Press Space for Instructions", 85, 275);
-		
-				
+
 	}
 
 	void drawGameState(Graphics g) {

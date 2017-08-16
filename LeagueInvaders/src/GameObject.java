@@ -1,15 +1,26 @@
 import java.awt.Graphics;
 
 public class GameObject {
-	int x;
-	int y;
-	int width;
-	int height;
+	int x = 50;
+	int y = 200;
+	int width = 50;
+	int height = 50;
 	Boolean isAlive = true;
+
+	GameObject(int x, int y, int width, int height) {
+		this();
+		this.x = x;
+		this.y = y;
+		this.height = height;
+		this.width = width;
+	}
+
+	public GameObject() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public void update() {
 
-		
 	}
 
 	public void draw(Graphics g) {

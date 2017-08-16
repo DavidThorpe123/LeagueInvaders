@@ -1,8 +1,8 @@
 import javax.swing.JFrame;
 
 public class LeagueInvaderRunner {
-	final int width = 500;
-	final int height = 800;
+	final static int WIDTH = 500;
+	final int HEIGHT = 800;
 	JFrame frame;
 	GamePanel gp;
 
@@ -21,7 +21,7 @@ public class LeagueInvaderRunner {
 		gp.startGame();
 		frame.add(gp);
 		frame.setVisible(true);
-		frame.setSize(width, height);
+		frame.setSize(WIDTH, HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
