@@ -5,7 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -19,12 +22,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	ObjectManager om;
 	Timer timer;
 	GameObject go;
+	public static BufferedImage alienimg;
+	public static BufferedImage rocketimg;
+	public static BufferedImage bulletimg;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
 	int currentState = MENU_STATE;
 
 	GamePanel() {
+		try {
+			alienimg = ImageIO.read(this.getClass().getResourceAsStream("alien.png"));
+			rocketimg = ImageIO.read(this.getClass().getResourceAsStream("rocket.png"));
+			bulletimg = ImageIO.read(this.getClass().getResourceAsStream("bullet.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		timer = new Timer(1000 / 60, this);
 		titlefont = new Font("Arial", Font.PLAIN, 48);
 		instructions = new Font("Arial", Font.PLAIN, 28);
@@ -68,13 +83,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("Hi");
+
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("Hi");
+
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			currentState++;
 			if (currentState > END_STATE) {
@@ -84,13 +99,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			om.addObject(new Projectiles(ship.x, ship.y, 10, 10));
 		}
+		if (e.getKeyCode() == KeyEvent.VK_A) {
+			ship.x -= 10;
+			if (ship.x < 0) {
+				ship.x = 500;
+			}
+
+		}
+		if (e.getKeyCode() == KeyEvent.VK_D) {
+			ship.x += 10;
+			if (ship.x > 500) {
+				ship.x = 5;
+			}
+		}
 
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("Hi");
+
 	}
 
 	public void updateMenuState() {
@@ -100,6 +128,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void updateGameState() {
 		om.update();
 		om.manageEnemies();
+		om.checkCollision();
+		if (!ship.isAlive) {
+			om.reset();
+			ship = new Rocketship(250, 700, 50, 50);
+			om.addObject(ship);
+			currentState = END_STATE;
+		}
 	}
 
 	public void updateEndState() {

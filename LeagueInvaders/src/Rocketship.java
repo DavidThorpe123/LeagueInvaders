@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.Graphics;
 
 public class Rocketship extends GameObject {
@@ -11,11 +10,10 @@ public class Rocketship extends GameObject {
 	}
 
 	public void update() {
-
+		super.update();
 	}
 
 	public void draw(Graphics g) {
-		g.setColor(Color.BLUE);
-		g.fillRect(x, y, width, height);
+		g.drawImage(GamePanel.rocketimg, x, y, width, height, null);
 	}
 }
